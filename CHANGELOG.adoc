@@ -3,6 +3,10 @@
 == Next version (in development)
 * No changes yet
 
+== v1.2.0 (2023-09-02)
+
+* Added InviteReceivedEvent
+
 == v1.1.1 (2019-03-14)
 
 * Fix occasional buffer overflow issue on TLS connections.

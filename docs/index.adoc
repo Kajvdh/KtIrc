@@ -1041,6 +1041,15 @@ The <<Reply>> function can be used to reply to a message,
 automatically selecting the appropriate target and including the
 message ID in the reply where supported by the IRC server.
 
+==== InviteReceived
+* Type: IrcEvent, TargetedEvent, SourcedEvent
+* Properties:
+** `user`: `User` - the user who sent the message
+** `target`: `String` - the user the invite was sent to
+** `inviteChannel`: `String` - the text of the message
+
+Raised whenever we receive an invite to our local user.
+
 ==== NoticeReceived
 * Type: IrcEvent, TargetedEvent, SourcedEvent
 * Properties:
