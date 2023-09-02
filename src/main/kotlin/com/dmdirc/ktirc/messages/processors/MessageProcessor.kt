@@ -36,6 +36,7 @@ internal val messageProcessors = listOf(
         PartProcessor(),
         PingProcessor(),
         PrivmsgProcessor(),
+        InviteProcessor(),
         TopicProcessor(),
         QuitProcessor(),
         WelcomeProcessor()

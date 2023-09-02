@@ -221,6 +221,9 @@ class MessageReceived(metadata: EventMetadata, override val user: User, target: 
 
 }
 
+/** Raised when an invite is received. */
+class InviteReceived(metadata: EventMetadata, override val user: User, target: String, val inviteChannel: String) : TargetedEvent(metadata, target), SourcedEvent
+
 /**
  * Raised when a notice is received.
  *
