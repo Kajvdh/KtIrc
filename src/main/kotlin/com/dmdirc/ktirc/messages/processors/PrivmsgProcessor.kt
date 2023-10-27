@@ -1,9 +1,6 @@
 package com.dmdirc.ktirc.messages.processors
 
-import com.dmdirc.ktirc.events.ActionReceived
-import com.dmdirc.ktirc.events.CtcpReceived
-import com.dmdirc.ktirc.events.IrcEvent
-import com.dmdirc.ktirc.events.MessageReceived
+import com.dmdirc.ktirc.events.*
 import com.dmdirc.ktirc.messages.CTCP_BYTE
 import com.dmdirc.ktirc.model.IrcMessage
 import com.dmdirc.ktirc.model.User
@@ -13,16 +10,21 @@ internal class PrivmsgProcessor : MessageProcessor {
 
     private val log by logger()
 
-    override val commands = arrayOf("PRIVMSG")
+    override val commands = arrayOf("PRIVMSG", "TAGMSG")
 
-    override fun process(message: IrcMessage) = when {
-        message.sourceUser == null -> emptyList()
-        message.params.size < 2 -> {
-            log.warning { "Discarding PRIVMSG line with insufficient parameters: $message" }
-            emptyList()
+    override fun process(message: IrcMessage) = when(message.command) {
+        "PRIVMSG" -> {
+            when {
+                message.sourceUser == null -> emptyList()
+                message.params.size < 2 -> {
+                    log.warning { "Discarding PRIVMSG line with insufficient parameters: $message" }
+                    emptyList()
+                }
+                message.isCtcp() -> listOf(handleCtcp(message, message.sourceUser))
+                else -> listOf(MessageReceived(message.metadata, message.sourceUser, String(message.params[0]), String(message.params[1])))
+            }
         }
-        message.isCtcp() -> listOf(handleCtcp(message, message.sourceUser))
-        else -> listOf(MessageReceived(message.metadata, message.sourceUser, String(message.params[0]), String(message.params[1])))
+        else -> emptyList()
     }
 
     private fun handleCtcp(message: IrcMessage, user: User): IrcEvent {
