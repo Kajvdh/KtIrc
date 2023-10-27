@@ -23,17 +23,25 @@ fun IrcClient.sendAway(reason: String? = null) =
         reason?.let { send("AWAY", reason) } ?: send(emptyMap(), "AWAY")
 
 /** Sends a CTCP message of the specified [type] and with optional [data] to [target] (a user or a channel). */
-fun IrcClient.sendCtcp(target: String, type: String, data: String? = null) =
-        sendMessage(target, "\u0001${type.toUpperCase()}${data?.let { " $it" } ?: ""}\u0001")
+fun IrcClient.sendCtcp(target: String, type: String, data: String? = null) = when(data) {
+        null -> sendMessage(target, "\u0001${type.toUpperCase()}\u0001")
+        else -> sendNotice(target, "\u0001${type.toUpperCase()}${data.let { " $it" } ?: ""}\u0001")
+}
 
 /** Sends an action to the given [target] (a user or a channel). */
-fun IrcClient.sendAction(target: String, action: String) = sendCtcp(target, "ACTION", action)
+fun IrcClient.sendAction(target: String, action: String) = sendMessage(target, "\u0001ACTION ${action}\u0001")
 
 /** Sends a private message to a user or channel. */
 fun IrcClient.sendMessage(target: String, message: String, inReplyTo: String? = null) =
         send(
                 inReplyTo?.let { tagMap(MessageTag.Reply to inReplyTo) } ?: emptyMap(),
                 "PRIVMSG",
+                target,
+                message)
+
+fun IrcClient.sendNotice(target: String, message: String) =
+        send(
+                "NOTICE",
                 target,
                 message)
 
