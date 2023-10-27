@@ -97,7 +97,7 @@ internal class MessageBuildersTest {
     @Test
     fun `sendCtcp sends correct CTCP message with arguments`() {
         mockClient.sendCtcp("acidBurn", "ping", "12345")
-        verify { mockClient.send(tagMap(), "PRIVMSG", "acidBurn", "\u0001PING 12345\u0001") }
+        verify { mockClient.send("NOTICE", "acidBurn", "\u0001PING 12345\u0001") }
     }
 
     @Test

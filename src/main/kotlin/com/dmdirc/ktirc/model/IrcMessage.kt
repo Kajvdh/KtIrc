@@ -55,13 +55,22 @@ sealed class MessageTag(val name: String) {
     object Label : MessageTag("draft/label")
 
     /** A unique ID for the message, used to reply, react, edit, delete, etc. */
-    object MessageId : MessageTag("draft/msgid")
+    object MessageId : MessageTag("msgid")
+
+    /** Indicates that the message was sent by a bot */
+    object Bot : MessageTag("bot")
+
+    /** Indicated that the message was sent by a bot (draft) */
+    object DraftBot : MessageTag("draft/bot")
 
     /** Used to identify a message ID that was replied to, to enable threaded conversations. */
     object Reply : MessageTag("+draft/reply")
 
     /** Used to specify a slack-like reaction to another message. */
     object React : MessageTag("+draft/react")
+
+    /** Used to specify that someone is typing a message. */
+    object Typing : MessageTag("+typing")
 
     /** Specifies the time the server received the message, if the `server-time` capability is negotiated. */
     object ServerTime : MessageTag("time")

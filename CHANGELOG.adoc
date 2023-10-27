@@ -3,6 +3,11 @@
 == Next version (in development)
 * No changes yet
 
+== v1.4.0 (2023-10-28)
+* Handle TAGMSG command
+* Support +typing, msgid, bot and draft/bot tags
+* Fix CTCP reply's
+
 == v1.2.0 (2023-09-02)
 
 * Added InviteReceivedEvent
